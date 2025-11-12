@@ -6,4 +6,4 @@ class HomeController {
         // Nếu bạn có view home.php
         require PATH_VIEW . 'home.php';
     }
-}
+};
