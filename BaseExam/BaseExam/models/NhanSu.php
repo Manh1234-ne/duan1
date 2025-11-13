@@ -1,11 +1,11 @@
 <?php
 require_once 'BaseModel.php';
 
-class NhanSu extends BaseModel {
+class NhanSu extends BaseModel
+{
     protected $table = 'huong_dan_vien';
-
-    // Lấy tất cả nhân sự (JOIN với bảng người dùng)
-    public function getAllWithNguoiDung() {
+    public function getAllWithNguoiDung()
+    {
         $sql = "SELECT hdv.*, nd.ho_ten, nd.email, nd.so_dien_thoai
                 FROM huong_dan_vien hdv
                 JOIN nguoi_dung nd ON hdv.nguoi_dung_id = nd.id";
@@ -13,8 +13,8 @@ class NhanSu extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy chi tiết 1 hướng dẫn viên theo ID
-    public function findWithNguoiDung($id) {
+    public function findWithNguoiDung($id)
+    {
         $sql = "SELECT hdv.*, nd.ho_ten, nd.email, nd.so_dien_thoai
                 FROM huong_dan_vien hdv
                 JOIN nguoi_dung nd ON hdv.nguoi_dung_id = nd.id
@@ -24,9 +24,8 @@ class NhanSu extends BaseModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Thêm mới hướng dẫn viên
-    public function createNhanSu($data) {
-        // Thêm người dùng
+    public function createNhanSu($data)
+    {
         $stmt1 = $this->db->prepare("INSERT INTO nguoi_dung (ho_ten, email, so_dien_thoai, ten_dang_nhap, mat_khau, vai_tro) 
                                      VALUES (:ho_ten, :email, :so_dien_thoai, :ten_dang_nhap, :mat_khau, 'huong_dan_vien')");
         $stmt1->execute([
@@ -37,8 +36,6 @@ class NhanSu extends BaseModel {
             'mat_khau' => password_hash('123456', PASSWORD_DEFAULT)
         ]);
         $nguoi_dung_id = $this->db->lastInsertId();
-
-        // Thêm hướng dẫn viên
         $stmt2 = $this->db->prepare("INSERT INTO huong_dan_vien (nguoi_dung_id, ngon_ngu, kinh_nghiem, danh_gia)
                                      VALUES (:nguoi_dung_id, :ngon_ngu, :kinh_nghiem, :danh_gia)");
         $stmt2->execute([
@@ -48,9 +45,8 @@ class NhanSu extends BaseModel {
             'danh_gia' => $data['danh_gia']
         ]);
     }
-
-    // Cập nhật hướng dẫn viên
-    public function updateNhanSu($id, $data) {
+    public function updateNhanSu($id, $data)
+    {
         $sql = "UPDATE nguoi_dung nd 
                 JOIN huong_dan_vien hdv ON nd.id = hdv.nguoi_dung_id
                 SET nd.ho_ten = :ho_ten,
@@ -71,9 +67,8 @@ class NhanSu extends BaseModel {
             'id' => $id
         ]);
     }
-
-    // Xóa hướng dẫn viên + người dùng
-    public function deleteNhanSu($id) {
+    public function deleteNhanSu($id)
+    {
         $stmt = $this->db->prepare("SELECT nguoi_dung_id FROM huong_dan_vien WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $nguoi_dung_id = $stmt->fetchColumn();
