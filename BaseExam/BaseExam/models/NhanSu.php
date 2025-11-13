@@ -4,6 +4,7 @@ require_once 'BaseModel.php';
 class NhanSu extends BaseModel {
     protected $table = 'huong_dan_vien';
 
+    // Lấy toàn bộ hướng dẫn viên cùng thông tin người dùng
     public function getAllWithNguoiDung() {
         $stmt = $this->db->query("
             SELECT hdv.*, nd.ho_ten, nd.email, nd.so_dien_thoai, nd.id as nguoi_dung_id
@@ -13,6 +14,7 @@ class NhanSu extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Lấy một hướng dẫn viên theo ID
     public function findWithNguoiDung($id) {
         $stmt = $this->db->prepare("
             SELECT hdv.*, nd.ho_ten, nd.email, nd.so_dien_thoai, nd.id as nguoi_dung_id
@@ -24,50 +26,56 @@ class NhanSu extends BaseModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Tạo mới bản ghi hướng dẫn viên (liên kết với bảng nguoi_dung)
     public function createNhanSu($data) {
-    $stmt = $this->db->prepare("INSERT INTO nhan_su (ho_ten, email, so_dien_thoai, ngon_ngu, kinh_nghiem, danh_gia) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([
-        $data['ho_ten'],
-        $data['email'],
-        $data['so_dien_thoai'],
-        $data['ngon_ngu'],
-        $data['kinh_nghiem'],
-        $data['danh_gia']
-    ]);
-}
+        $stmt = $this->db->prepare("
+            INSERT INTO huong_dan_vien (nguoi_dung_id, ngon_ngu, kinh_nghiem, danh_gia)
+            VALUES (?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $data['nguoi_dung_id'] ?? null,
+            $data['ngon_ngu'] ?? null,
+            $data['kinh_nghiem'] ?? null,
+            $data['danh_gia'] ?? 0
+        ]);
+    }
 
-public function updateNhanSu($id, $data) {
-    $stmt = $this->db->prepare("UPDATE nhan_su SET ho_ten=?, email=?, so_dien_thoai=?, ngon_ngu=?, kinh_nghiem=?, danh_gia=? WHERE id=?");
-    $stmt->execute([
-        $data['ho_ten'],
-        $data['email'],
-        $data['so_dien_thoai'],
-        $data['ngon_ngu'],
-        $data['kinh_nghiem'],
-        $data['danh_gia'],
-        $id
-    ]);
-}
+    // Cập nhật thông tin hướng dẫn viên
+    public function updateNhanSu($id, $data) {
+        $stmt = $this->db->prepare("
+            UPDATE huong_dan_vien
+            SET nguoi_dung_id=?, ngon_ngu=?, kinh_nghiem=?, danh_gia=?
+            WHERE id=?
+        ");
+        $stmt->execute([
+            $data['nguoi_dung_id'] ?? null,
+            $data['ngon_ngu'] ?? null,
+            $data['kinh_nghiem'] ?? null,
+            $data['danh_gia'] ?? 0,
+            $id
+        ]);
+    }
 
-public function getNhanSuById($id) {
-    $stmt = $this->db->prepare("SELECT * FROM nhan_su WHERE id=?");
-    $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+    // Lấy hướng dẫn viên theo ID
+    public function getNhanSuById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM huong_dan_vien WHERE id=?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-
+    // Xóa hướng dẫn viên và cả tài khoản người dùng liên kết
     public function deleteNhanSu($id) {
-        // Lấy nguoi_dung_id
+        // Lấy nguoi_dung_id trước
         $stmt = $this->db->prepare("SELECT nguoi_dung_id FROM huong_dan_vien WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $nguoi_dung_id = $stmt->fetchColumn();
 
-        // Xóa hdv trước
+        // Xóa hướng dẫn viên
         $stmt1 = $this->db->prepare("DELETE FROM huong_dan_vien WHERE id = :id");
         $stmt1->execute(['id' => $id]);
 
-        // Xóa nguoi_dung
+        // Xóa người dùng tương ứng
         $stmt2 = $this->db->prepare("DELETE FROM nguoi_dung WHERE id = :id");
         $stmt2->execute(['id' => $nguoi_dung_id]);
     }
-};
+}
