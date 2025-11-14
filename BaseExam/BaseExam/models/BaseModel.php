@@ -53,5 +53,5 @@ class BaseModel {
         $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id = ?");
         return $stmt->execute([$id]);
     }
-}
+} 
  
