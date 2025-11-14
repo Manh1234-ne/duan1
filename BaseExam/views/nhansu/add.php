@@ -21,12 +21,13 @@
             display: block; 
             margin-top: 15px; 
         }
-        input, textarea { 
-            width: 100%; 
+        input, textarea, select { 
+            width: 100%; /* giống input khác */
             padding: 8px; 
             margin-top: 5px; 
             border-radius: 4px; 
             border: 1px solid #ccc; 
+            box-sizing: border-box; /* đảm bảo padding không vượt width */
         }
         button { 
             margin-top: 20px; 
@@ -83,8 +84,18 @@
         </div>
 
         <div>
-            <button type="submit">Thêm mớii</button>
+            <label>Vai trò:</label>
+            <select name="vai_tro" required>
+                <option value="huong_dan_vien" selected>Hướng dẫn viên</option>
+                <option value="admin">Admin</option>
+                <option value="khach_hang">Khách hàng</option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit">Thêm mới</button>
         </div>
     </form>
+
 </body>
 </html>

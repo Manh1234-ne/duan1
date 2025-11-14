@@ -23,7 +23,9 @@ class TourController {
             'loai_tour' => $_POST['loai_tour'],
             'mo_ta' => $_POST['mo_ta'],
             'gia' => $_POST['gia'],
-            'chinh_sach' => $_POST['chinh_sach']
+            'chinh_sach' => $_POST['chinh_sach'],
+            'nha_cung_cap' => $_POST['nha_cung_cap'],
+            'mua' => $_POST['mua']
         ];
         if(!empty($_FILES['hinh_anh']['name'])) {
             $data['hinh_anh'] = upload_file('tour', $_FILES['hinh_anh']);

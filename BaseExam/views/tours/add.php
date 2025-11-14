@@ -77,6 +77,15 @@
         <textarea name="chinh_sach"></textarea>
         <label>Hình ảnh</label>
         <input type="file" name="hinh_anh">
+        <h3>Nhà cung cấp</h3>
+        <textarea name="nha_cung_cap"></textarea>
+        <label>Mùa</label>
+        <select name="mua">
+            <option value="mua_xuan">Mùa Xuân</option>
+            <option value="mua_ha">Mùa Hạ</option>
+            <option value="mua_thu">Mùa Thu</option>
+            <option value="mua_dong">Mùa Đông</option>
+        </select>
         <button type="submit">Thêm Tourr</button>
         <a href="?action=tours">Quay lại</a>
     </form>
