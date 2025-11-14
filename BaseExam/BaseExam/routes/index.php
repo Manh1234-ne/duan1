@@ -25,4 +25,3 @@ $func = match ($action) {
 
 $func(); // gọi closure
 
-?>
