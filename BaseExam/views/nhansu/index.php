@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách Hướng dẫn viên</title>
+    <title>Danh sách Nhân sự</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
@@ -122,6 +122,8 @@
         <a href="?action=home"><i class="fa fa-home"></i>Trang chủ</a>
         <a href="?action=tours"><i class="fa fa-suitcase"></i>Quản lý tourr</a>
         <a href="?action=nhansu"><i class="fa fa-user-tie"></i>Quản lý nhân sự</a>
+        <a href="?action=danhmuc"><i class="nav-icon fas fa-th"></i>Quản lý danh mục</a>
+
     </div>
     <div class="content">
         <div class="top-bar">

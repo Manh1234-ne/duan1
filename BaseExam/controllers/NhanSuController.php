@@ -12,7 +12,7 @@ class NhanSuController {
     public function index() {
         $nhansu = $this->model->getAllWithNguoiDung();
         if (!is_array($nhansu)) {
-            $nhansu = []; // tránh lỗi foreach null
+            $nhansu = []; 
         }
         require PATH_VIEW . 'nhansu/index.php';
     }
@@ -35,6 +35,27 @@ class NhanSuController {
     header('Location: ?action=nhansu');
     exit;
 }
+
+public function edit() {
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        header('Location: ?action=nhansu');
+        exit;
+    }
+
+    // Lấy dữ liệu 1 hướng dẫn viên + người dùng
+    $nhansu = $this->model->findWithNguoiDung($id);
+
+    if (!$nhansu) {
+        echo "Không tìm thấy nhân sự!";
+        return;
+    }
+
+    // Trả ra view edit
+    require PATH_VIEW . 'nhansu/edit.php';
+}
+
 
 public function update() {
     $id = $_GET['id'] ?? null;
@@ -62,4 +83,4 @@ public function update() {
         header('Location: ?action=nhansu');
         exit;
     }
-};
+}
