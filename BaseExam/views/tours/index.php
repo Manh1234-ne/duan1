@@ -146,28 +146,29 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($tours as $tour): ?>
-                    <tr>
-                        <td><?= $tour['id'] ?></td>
-                        <td><?= htmlspecialchars($tour['ten_tour']) ?></td>
-                        <td><?= $tour['loai_tour'] ?></td>
-                        <td><?= htmlspecialchars($tour['mo_ta']) ?></td>
-                        <td><?= number_format($tour['gia'], 0, ',', '.') ?> VNĐ</td>
-                        <td><?= htmlspecialchars($tour['chinh_sach']) ?></td>
-                        <td><?= htmlspecialchars($tour['nha_cung_cap']) ?></td>
-                        <td><?= $tour['mua'] ?></td>
-                        <td>
-                            <?php if ($tour['hinh_anh']): ?>
-                                <img src="assets/uploads/<?= $tour['hinh_anh'] ?>" width="80">
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <a href="?action=tour_edit&id=<?= $tour['id'] ?>" class="btn"><i class="fa fa-edit"></i> Sửa</a>
-                            <a href="?action=tour_delete&id=<?= $tour['id'] ?>" class="btn" onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i class="fa fa-trash"></i> Xóa</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+    <?php foreach ($tours as $tour): ?>
+        <tr>
+            <td><?= $tour['id'] ?? '' ?></td>
+            <td><?= htmlspecialchars($tour['ten_tour'] ?? '') ?></td>
+            <td><?= htmlspecialchars($tour['loai_tour'] ?? '') ?></td>
+            <td><?= htmlspecialchars($tour['mo_ta'] ?? '') ?></td>
+            <td><?= isset($tour['gia']) ? number_format($tour['gia'], 0, ',', '.') . ' VNĐ' : '' ?></td>
+            <td><?= htmlspecialchars($tour['chinh_sach'] ?? '') ?></td>
+            <td><?= htmlspecialchars($tour['nha_cung_cap'] ?? '') ?></td>
+            <td><?= htmlspecialchars($tour['mua'] ?? '') ?></td>
+            <td>
+                <?php if (!empty($tour['hinh_anh'])): ?>
+                    <img src="assets/uploads/<?= $tour['hinh_anh'] ?>" width="80">
+                <?php endif; ?>
+            </td>
+            <td>
+                <a href="?action=tour_edit&id=<?= $tour['id'] ?>" class="btn"><i class="fa fa-edit"></i> Sửa</a>
+                <a href="?action=tour_delete&id=<?= $tour['id'] ?>" class="btn" onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i class="fa fa-trash"></i> Xóa</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+
         </table>
     </div>
 </body>
